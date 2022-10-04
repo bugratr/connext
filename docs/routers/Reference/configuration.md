@@ -2,46 +2,46 @@
 sidebar_position: 5
 ---
 
-# Configuration
+# Yapılandırma
 
-The router is accepts configuration using the config file `config.json` in the root directory of the [docker-compose repo](https://github.com/connext/nxtp-router-docker-compose).
+Yönlendirici, [docker-compose deposunun](https://github.com/connext/nxtp-router-docker-compose) kök dizinindeki "config.json" yapılandırma dosyasını kullanarak yapılandırmayı kabul eder.
 
-See the [testnet](../../developers/testing-against-testnet.md) or mainnet (coming soon) guides for addresses and URLs.
+Adresler ve URL'ler için [testnet](../../developers/testing-against-testnet.md) veya mainnet (yakında) kılavuzlarına bakın.
 
-The JSON schema accepts the following keys:
+JSON şeması aşağıdaki anahtarları kabul eder:
 
-- `sequencerUrl`: The URL of the sequencer.
-- `redis`: _Requires_. Object containing the following keys to configure an external redis instance:
-  - `host`: The hostname of the redis instance.
-  - `port`: The port of the redis instance.
-- `server`: _Required_. Object containing the following keys to configure the HTTP server:
-  - `adminToken`: _Required_. Secret token used to authenticate admin requests.
-  - `port`: _Optional_. The port the router will listen on. Defaults to `8080`.
-  - `host`: _Optional_. The host the router will listen on. Defaults to `0.0.0.0`.
-  - `requestLimit`: _Optional_. Unused.
-- `web3SignerUrl`: _Recommended_. The URL for a running [Web3Signer](https://docs.web3signer.consensys.net/en/latest/) instance. This is the recommended approach to private key storage.
-- `mnemonic`: _Optional, Discouraged_. The mnemonic used to generate the private key. Using the mnemonic directly in the config file is unsafe and not recommended.
-- `chains`: _Required_. The chain configuration. A JSON object with the following keyed by [Domain IDs](./developers/testing-against-testnet#domain-ids) with the following object schema as value:
-  - `providers`: _Required_. An array of providers URLs for a chain. Use a minimum of 1 URL, but additional URLs provide more fallback protection against provider issues.
-  - `assets`: _Required_. An array of assets. Each asset is a JSON object with the following keys:
-    - `assetId`: _Required_. The asset ID (ERC20 token address). For native assets, use `0x0000000000000000000000000000000000000000`.
-    - `name`: _Required_. The Asset Name.
-    - `mainnetEquivalent`: _Optional_. The equivalent asset on ETH mainnet for price determinations. Defaults to Connext's configuration.
-  - `subgraph`: _Optional_. An object containing the following keys to configure subgraphs.
-    - `runtime`: _Optional_. An array of subgraph URLs for a chain. Additional URLs provide more fallback protection against subgraph issues. If not provided, will default to Connext's hosted subgraphs.
-    - `analytics`: _Optional_. An array of subgraph URLs for a chain. Additional URLs provide more fallback protection against subgraph issues. If not provided, will default to Connext's hosted subgraphs.
-    - `maxLag`: _Optional_. The number of blocks to allow the subgraph's latest block number to be behind the provider's latest block number. Defaults to the recommended value per chain.
-  - `deployments`: _Optional_. An object containing the following keys to configure deployments.
-    - `connext`: _Optional_. The address of the Connext.sol contract. If not provided, will default to the latest deployed contracts.
-  - `confirmations`: _Optional_. The number of confirmations required for a transaction to be considered valid on a chain. Defaults to defined values [here](https://github.com/connext/chaindata/blob/29cc0250aff398cdf9326dcb7698d291f3e3015a/crossChain.json).
-  - `minGas`: _Optional_. The minimum gas amount required to be held by the router's signer address in order to participate in auctions, specified in Wei. Defaults to `100000000000000000` (0.1 Ether).
-  - `gasStations`: _Optional_. Array of gas station URLs, defaults to using the RPC's gas estimation.
-- `subgraphPollInterval`: _Optional_. Control the subgraph poll interval in milliseconds. Defaults to 15_000 (15 seconds).
-- `maxSlippage`: _Optional_. The maximum amount of slippage to allow in transfers.
+- `sequencerUrl`: Sıralayıcının URL'si.
+- "redis": _Gerektirir_. Harici bir redis örneğini yapılandırmak için aşağıdaki anahtarları içeren nesne:
+   - "host": Redis örneğinin ana bilgisayar adı.
+   - "port": Redis örneğinin bağlantı noktası.
+- "server": _Gerekli_. HTTP sunucusunu yapılandırmak için aşağıdaki anahtarları içeren nesne:
+   - `adminToken`: _Gerekli_. Yönetici isteklerinin kimliğini doğrulamak için kullanılan gizli belirteç.
+   - "port": _İsteğe bağlı_. Yönlendiricinin dinleyeceği bağlantı noktası. Varsayılan "8080"dir.
+   - "host": _İsteğe bağlı_. Yönlendiricinin dinleyeceği ana bilgisayar. Varsayılan olarak "0.0.0.0" olarak ayarlanır.
+   - "requestLimit": _İsteğe bağlı_. Kullanılmamış.
+- "web3SignerUrl": _Önerilen_. Çalışan bir [Web3Signer](https://docs.web3signer.consensys.net/en/latest/) örneğinin URL'si. Bu, özel anahtar depolaması için önerilen yaklaşımdır.
+- "mnemonic": _İsteğe bağlı, Cesaretini kıran_. Özel anahtarı oluşturmak için kullanılan anımsatıcı. Anımsatıcıyı doğrudan yapılandırma dosyasında kullanmak güvenli değildir ve önerilmez.
+- "chains": _Gerekli_. Zincir konfigürasyonu. Değer olarak aşağıdaki nesne şemasına sahip [Etki Alanı Kimlikleri](./developers/testing-against-testnet#domain-ids) tarafından anahtarlanan aşağıdakilere sahip bir JSON nesnesi:
+   - "providers": _Gerekli_. Bir zincir için sağlayıcı URL'leri dizisi. En az 1 URL kullanın, ancak ek URL'ler sağlayıcı sorunlarına karşı daha fazla yedek koruma sağlar.
+- "assets": _Gerekli_. Bir dizi varlık. Her varlık, aşağıdaki anahtarlara sahip bir JSON nesnesidir:
+    - "assetId": _Gerekli_. Varlık kimliği (ERC20 belirteç adresi). Yerel varlıklar için "0x0000000000000000000000000000000000000000" kullanın.
+    - "name": _Gerekli_. Varlık Adı.
+    - "mainnetEquivalent": _İsteğe bağlı_. Fiyat belirlemeleri için ETH ana ağındaki eşdeğer varlık. Varsayılan olarak Connext'in yapılandırmasıdır.
+  - "subgraph": _İsteğe bağlı_. Alt grafikleri yapılandırmak için aşağıdaki anahtarları içeren bir nesne.
+    - "runtime": _İsteğe bağlı_. Bir zincir için alt grafik URL'leri dizisi. Ek URL'ler, alt yazı sorunlarına karşı daha fazla yedek koruma sağlar. Sağlanmazsa, varsayılan olarak Connext'in barındırılan alt grafiklerini kullanır.
+    - "analytics": _İsteğe bağlı_. Bir zincir için alt grafik URL'leri dizisi. Ek URL'ler, alt yazı sorunlarına karşı daha fazla yedek koruma sağlar. Sağlanmazsa, varsayılan olarak Connext'in barındırılan alt grafiklerini kullanır.
+    - "maxLag": _İsteğe bağlı_. Alt grafiğin en son blok numarasının, sağlayıcının en son blok numarasının arkasında olmasına izin verecek blok sayısı. Varsayılan olarak zincir başına önerilen değerdir.
+- "deployments": _İsteğe bağlı_. Dağıtımları yapılandırmak için aşağıdaki anahtarları içeren bir nesne.
+     - "connext": _İsteğe bağlı_. Connext.sol sözleşmesinin adresi. Sağlanmazsa, varsayılan olarak en son dağıtılan sözleşmeler kullanılacaktır.
+   - "confirmations": _İsteğe bağlı_. Bir işlemin zincirde geçerli sayılması için gereken teyit sayısı. Varsayılan değerler [burada](https://github.com/connext/chaindata/blob/29cc0250aff398cdf9326dcb7698d291f3e3015a/crossChain.json).
+   - "minGas": _İsteğe bağlı_. Wei'de belirtilen, müzayedelere katılmak için yönlendiricinin imzalayan adresinin elinde bulundurması gereken minimum gaz miktarı. Varsayılan "1000000000000000000" (0,1 Eter) olarak ayarlanmıştır.
+   - "benzin İstasyonları": _İsteğe bağlı_. Benzin istasyonu URL'leri dizisi, varsayılan olarak RPC'nin gaz tahminini kullanır.
+- "subgraphPollInterval": _İsteğe bağlı_. Alt grafik yoklama aralığını milisaniye cinsinden kontrol edin. 15_000 (15 saniye) varsayılandır.
+- `maxSlippage`: _İsteğe bağlı_. Transferlerde izin verilecek maksimum kayma miktarı.
 
-## Example Configuration File
+## Örnek Yapılandırma Dosyası
 
-_These are example RPC URLs. Please get your own RPC URLs!_
+_Bunlar örnek RPC URL'leridir. Lütfen kendi RPC URL'lerinizi alın!_
 
 ```json
 {
