@@ -45,7 +45,7 @@ These systems are the most trust-minimized systems as they rely directly on doma
 
 Locally verified protocols are ones where only the parties involved in a given cross-domain interaction verify the interaction. Locally verified protocols turn the complex n-party verification problem into a much simpler set of 2-party interactions where each party verifies only their counterparty. This model works so long as both parties are economically adversarial — i.e. there’s no way for both parties to collude to take funds from the broader chain.
 
-These protocols are fast, extensibile, and trust-minimized but cannot support arbitrary messages due to their adversarial nature. An NFT, for instance, would not be able to be 1:1 backed by a counterparty.
+These protocols are fast, extensible, and trust-minimized but cannot support arbitrary messages due to their adversarial nature. An NFT, for instance, would not be able to be 1:1 backed by a counterparty.
 
 ### Optimistic Bridges
 
