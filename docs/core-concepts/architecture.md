@@ -3,30 +3,30 @@ sidebar_position: 4
 id: "architecture"
 ---
 
-# Connext Architecture
+# Connext Mimarisi
 
-The Connext protocol is composed of a set of smart contracts and offchain agents.
+Connext protokolü, bir dizi akıllı sözleşme ve zincir dışı aracıdan oluşur.
 
-## Smart Contracts
+## Akıllı Kontratlar
 
-Connext's smart contracts are the interfaces between the protocol and the wide gamut of different users in the ecosystem. There are contracts for handling `xcall`, managing asset registration, and provisioning liquidity for routers and stableswap LPs. 
+Connext'in akıllı sözleşmeleri, protokol ile ekosistemdeki farklı kullanıcıların geniş yelpazesi arasındaki arayüzlerdir. "xcall"ı işlemek, varlık kaydını yönetmek ve yönlendiriciler ve istikrarlı takas LP'leri için likidite sağlamak için sözleşmeler vardır.
 
-More details are available in the [Smart Contract Overview](../developers/reference/contracts.md).
+[Akıllı Sözleşmeye Genel Bakış] bölümünde daha fazla ayrıntı mevcuttur.(../developers/reference/contracts.md).
 
-## Offchain Agents
+## Zincir Dışı Ajanlar
 
-### Routers
+### Yönlendiriciler
 
-Routers are liquidity providers that enable instant liquidity for the user on the destination chain in return for a fee. Anybody can participate in the protocol as a router and there is no minimum liquidity required!
+Yönlendiriciler, hedef zincirindeki kullanıcıya bir ücret karşılığında anında likidite sağlayan likidite sağlayıcılardır. Protokole yönlendirici olarak herkes katılabilir ve minimum likidite gerekmez!
 
-More details are available in the [Routers Section](../routers/intro.md).
+Daha fazla ayrıntı şurada mevcuttur:[Routers Section](../routers/intro.md).
 
-### Sequencer
+### Sıralayıcı
 
-The sequencer collects bids from all chains and randomly selects router(s) to fulfill them. Any number of routers can fulfill a single transaction, which is especially useful for large transfers. The sequencer will post batches of these bids to a relayer network to submit them to chain.
+Sıralayıcı, tüm zincirlerden teklifleri toplar ve bunları yerine getirmek için rastgele yönlendirici(ler) seçer. Herhangi bir sayıda yönlendirici, özellikle büyük aktarımlar için yararlı olan tek bir işlemi gerçekleştirebilir. Sıralayıcı, zincire göndermek için bu tekliflerin gruplarını bir geçiş ağına gönderir.
 
-### Relayers
+### Röleler
 
-Relayers are a decentralized network of infrastructure operators that can execute smart contract transactions on behalf of a user in exchange for a small fee. Because the last leg of a cross-chain transaction requires execution on the destination domain, relayers play an important role in completing the full flow.
+Röleler, küçük bir ücret karşılığında bir kullanıcı adına akıllı sözleşme işlemlerini gerçekleştirebilen merkezi olmayan bir altyapı operatörleri ağıdır. Zincirler arası işlemin son ayağı hedef etki alanında yürütmeyi gerektirdiğinden, röleler tam akışı tamamlamada önemli bir rol oynar.
 
-We are currently using [Gelato](gelato.network) as our relayer service.
+Şu anda geçiş hizmetimiz olarak [Gelato](gelato.network) kullanıyoruz.
