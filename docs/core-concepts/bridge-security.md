@@ -4,7 +4,7 @@ id: "bridge-security"
 ---
 
 
-# Bridge Güvenliği
+# Köprü Güvenliği
 
 ## Güvenlik Çeşitleri
 
