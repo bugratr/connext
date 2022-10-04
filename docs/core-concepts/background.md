@@ -4,62 +4,60 @@ id: "background"
 ---
 
 
-# Bridge Taxonomy
+# Köprü Taksonomisi
 
-## What is a Bridge?
+## Köprü nedir ?
 
-A bridge (or interoperability network) is a system that relays assets and/or data between blockchains.
+Köprü (veya birlikte çalışabilirlik ağı), blok zincirleri arasında varlıkları ve/veya verileri aktaran bir sistemdir.
 
 ## The Bridging Landscape
+Blok zincirlerinin ve dağıtılmış sistemlerin en önemli zorluklarından biri, **durmaksızın takaslara sahip olmalarıdır.**
 
-One of the key challenges of blockchains & distributed systems is that they **always have tradeoffs.**
+Köprüler için bu, köprülerin aşağıdakiler arasında uzlaşmaya varması gerektiği anlamına gelir:
 
-For bridges, historically this has meant that bridges must navigate compromises between:
+1. **Minumum-güven:** Sistem, temel etki alanlarının ötesinde yeni güven/güvenlik varsayımları sunmaz.
+2. **Genellenebilirlik:** Sistem, yalnızca fonları değil, rastgele verileri de aktarmayı destekler.
+3. **Genişletilebilirlik:** Sistem, çeşitli farklı temel alan türleri için çok sayıda özel çalışma olmadan dağıtılabilir.
+4. **Gecikme:** Verilerin hedef etki alanına ne kadar hızlı teslim edildiğini belirtir.
 
-1. **Trust-minimization:** The system does not introduce new trust/security assumptions beyond those of the underlying domains.
-2. **Generalizeability:** The system supports passing around arbitrary data and not just funds.
-3. **Extensibility:** The system can be deployed without lots of custom work for a variety of different types of underlying domains.
-4. **Latency:** How quickly the data is delivered to the destination domain.
+Tüm köprüleri özelliklerine/takaslarına göre sınıflandırabiliriz:
 
-We can classify all bridges by their properties/tradeoffs:
+### Harici Olarak Doğrulanmış Köprüler
 
-### Externally Verified Bridges
+![Harici Doğrulanmış](/img/core-concepts/external.png)
 
-![Externally Verified](/img/core-concepts/external.png)
+Harici olarak doğrulanmış protokoller, zincirler arasında veri aktarmak için harici bir doğrulayıcı grubuna güvenir. Bu tipik olarak bir MPC sistemi, oracle ağı veya eşik multisig olarak temsil edilir.
 
-Externaly verified protocols rely on an external set of validators to relay data between chains. This is typically represented as an MPC system, oracle network, or threshold multisig.
+Bu sistemler düşük gecikme süresine sahiptir, rastgele veri geçişini destekler ve etki alanları arasında kolayca taşınabilir, fakat bu durumda sisteminizin güvenliğini sağlamak için köprü doğrulayıcılarına güvenmek durumunda kalırsınız.
 
-These systems have low latency, support arbitrary data passing, and are easily portable between domains but you are now trusting the bridge verifiers to secure your system.
-
-### Natively Verified Bridges
+### Yerel Olarak Doğrulanmış Köprüler
 
 ![Natively Verified](/img/core-concepts/native.png)
 
-Natively verified protocols are ones where all of the underlying chains’ own verifiers are fully validating data passing between chains. Typically this is done by running a light client of one chain in the VM of another chain and vice versa.
+Yerel olarak doğrulanmış protokoller, temeldeki tüm zincirlerin kendi doğrulayıcılarının, zincirler arasında geçen verileri tamamen doğruladığı protokollerdir. Tipik olarak bu, bir zincirin hafif istemcisini başka bir zincirin VM'sinde çalıştırarak yapılır ve bunun tersi de geçerlidir.
 
-These systems are the most trust-minimized systems as they rely directly on domain validators for security, support arbitrary data, and have low latency. However, because the implementation of these systems is so deeply tied with consensus, they require custom implementations for each domain.
+Bu sistemler, güvenlik için doğrudan etki alanı doğrulayıcılarına güvendikleri, rastgele verileri destekledikleri ve düşük gecikme süresine sahip oldukları için güveni en aza indirilmiş sistemlerdir. Ancak, bu sistemlerin uygulanması fikir birliğine çok bağlı olduğundan, her alan için özel uygulamalar gerektirir.
 
-### Locally Verified Bridges
+### Yerel Olarak Doğrulanmış Köprüler
 
 ![Locally Verified](/img/core-concepts/local.png)
 
-Locally verified protocols are ones where only the parties involved in a given cross-domain interaction verify the interaction. Locally verified protocols turn the complex n-party verification problem into a much simpler set of 2-party interactions where each party verifies only their counterparty. This model works so long as both parties are economically adversarial — i.e. there’s no way for both parties to collude to take funds from the broader chain.
+Yerel olarak doğrulanmış protokoller, yalnızca belirli bir etki alanları arası etkileşime dahil olan tarafların etkileşimi doğruladığı protokollerdir. Yerel olarak doğrulanmış protokoller, karmaşık n-taraf doğrulama sorununu, her bir tarafın yalnızca kendi karşı tarafını doğruladığı çok daha basit bir 2 taraflı etkileşimler grubuna dönüştürür. Bu model, her iki taraf da ekonomik olarak düşman olduğu sürece işe yarar - yani, her iki tarafın da daha geniş zincirden fon almak için gizli anlaşmaya varmasının bir yolu yoktur.
 
-These protocols are fast, extensibile, and trust-minimized but cannot support arbitrary messages due to their adversarial nature. An NFT, for instance, would not be able to be 1:1 backed by a counterparty.
+Bu protokoller hızlı, genişletilebilir ve güveni en aza indirilmiştir ancak düşmanca yapıları nedeniyle keyfi mesajları destekleyemezler. Örneğin bir NFT, bir karşı taraf tarafından 1:1 oranında desteklenemez.
 
-### Optimistic Bridges
+### Optimistic Köprüler
 
-![Optimistic Bridges](/img/core-concepts/optimistic.png)
+![Optimistik Köprüler](/img/core-concepts/optimistic.png)
 
-Optimistic bridges, similar to optimistic rollups, use **fraud proofs** to ensure the validity of data relayed across chains. Every message that passes through an optimistic bridge remains in a “pending” state during the dispute window until it is considered valid. During this time, **watchers** can dispute the message if the data is incorrect.
+Optimistik köprüler, iyimser toplamalara benzer şekilde, zincirler arasında aktarılan verilerin geçerliliğini sağlamak için **dolandırıcılık kanıtlarını** kullanır. Optimistik bir köprüden geçen her mesaj, geçerli sayılana kadar anlaşmazlık penceresi sırasında “beklemede” durumda kalır. Bu süre zarfında **izleyiciler**, veriler yanlışsa mesaja itiraz edebilir.
 
-While slow, these protocols are extensible, generalizable, and trust-minimmized.
+Yavaş olsa da, bu protokoller genişletilebilir, genelleştirilebilir ve güveni en aza indirilmiştir.
 
 💡 Learn more:
+[Birlikte Çalışabilirlik Üçlemesi] (https://blog.connext.network/the-interoperability-trilemma-657c2cf69f17)
 
-[The Interoperability Trilemma](https://blog.connext.network/the-interoperability-trilemma-657c2cf69f17)
+[Optimistik Köprüler](https://blog.connext.network/optimistic-bridges-fb800dc7b0e0)
 
-[Optimistic Bridges](https://blog.connext.network/optimistic-bridges-fb800dc7b0e0)
-
-[​​Validity Proofs Are Not Effective for Bridging Blockchains](https://blog.connext.network/validity-proofs-are-not-effective-for-bridging-blockchains-85b5e3b22a35)
+[​​Geçerlilik Kanıtları Blok Zincirlerini Köprülemek İçin Etkili Değildir](https://blog.connext.network/validity-proofs-are-not-effective-for-bridging-blockchains-85b5e3b22a35)
 
