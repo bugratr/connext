@@ -3,6 +3,6 @@ sidebar_position: 2
 id: mainnet
 ---
 
-# Mainnet
+# Ana Ağ
 
-This page will be updated once mainnet is launched!
+Bu sayfa, ana ağ başlatıldığında güncellenecektir!
