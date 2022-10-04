@@ -4,61 +4,61 @@ id: "bridge-security"
 ---
 
 
-# Bridge Security
+# Bridge Güvenliği
 
-## Types of Security
+## Güvenlik Çeşitleri
 
-There are a few different types of important security in the bridging ecosystem, each asking a specific question:
+Köprüleme ekosisteminde her biri belirli bir soru soran birkaç farklı önemli güvenlik türü vardır:
 
-1. **Economic Security.** How much does it cost to corrupt the system?
+1. **Ekonomik Güvenlik.** Sistemin bozulmasının maliyeti nedir?
    
-2. **Implementation Security.** How complex is the system to implement? What does the security hygiene of implementers look like?
+2. **Uygulama Güvenliği.** Sistemin uygulanması ne kadar karmaşık? Uygulayıcıların güvenlik hijyeni nasıl görünüyor?
    
-3. **Environmental Security.** How can the system withstand attacks on underlying domains?
+3. **Çevresel Güvenlik.** Sistem, altta yatan etki alanlarına yönelik saldırılara nasıl dayanabilir?
 
-## Security of Different Bridge Protocols
+## Farklı Köprü Protokollerinin Güvenliği
 
-### Economic Security
+### Ekonomik Güvenlik
 
-To maximize economic security, protocols must maximize the size and diversity of their validator to increase the cost and complexity of bribes.
+Ekonomik güvenliği en üst düzeye çıkarmak için protokoller, rüşvetin maliyetini ve karmaşıklığını artırmak için doğrulayıcılarının boyutunu ve çeşitliliğini en üst düzeye çıkarmalıdır.
 
-| Bridge Type             | Corruption Costs           |
-| ----------------------- | --------------------------------- |
-| `External`     | `k-of-m of the external verifiers of the system` |
-| `Native`       | `k-of-n of the underlying domain validators`                            |
-| `Local`        | `2-of-2 counterparties`                    |
-| `Optimistic`   | `m-of-m of the watchers in the system`     |
+| Köprü Tipi | Yolsuzluk Maliyetleri |
+| -------------------------- | --------------------------------- |
+| "Dış" | `k-of-m sistemin dış doğrulayıcıları` |
+| 'Yerli' | `k-of-n temel alan doğrulayıcıları` |
+| 'Yerel' | '2'de 2 karşı taraf' |
+| 'İyimser' | `m-of-m sistemdeki izleyiciler` |
 
-Externally validated bridges have the lowest economic security, while natively verified bridges have the highest security.
+Harici olarak doğrulanmış köprüler en düşük ekonomik güvenliğe sahipken, yerel olarak doğrulanmış köprüler en yüksek güvenliğe sahiptir.
 
-### Implementation Security
+### Uygulama Güvenliği
 
-To maximize implementation security, protocols should be incredibly simple and easy to implement.
+Uygulama güvenliğini en üst düzeye çıkarmak için protokoller inanılmaz derecede basit ve uygulanması kolay olmalıdır.
 
-| Bridge Type             | Complexity       |
-| ----------------------- | --------------------------------- |
-| `External`     | `Medium (requires offchain coordination)`  |
-| `Native`       | `High (requires custom implementations)`   |
-| `Local`        | `Medium (requires offchain coordination)`  |
-| `Optimistic`   | `Low (standalone, portable components)`    |
 
-While natively verified bridges have a high degree of economic security, their lack of extensibility increases the implementation complexity substantially.
+| Köprü Tipi | karmaşıklık |
+| -------------------------- | --------------------------------- |
+| "Dış" | `Orta (zincir dışı koordinasyon gerektirir)` |
+| 'Yerli' | `Yüksek (özel uygulamalar gerektirir)` |
+| 'Yerel' | `Orta (zincir dışı koordinasyon gerektirir)` |
+| 'İyimser' | `Düşük (bağımsız, taşınabilir bileşenler)` |
 
-In addition to keeping the protocol simple, implementation risk can be constrained by:
+Yerel olarak doğrulanmış köprüler yüksek derecede ekonomik güvenliğe sahip olsa da, genişletilebilirliklerinin olmaması, uygulama karmaşıklığını önemli ölçüde artırır.
 
-- Following secure development practices (contract audits, fuzzing, etc.)
-- Native mechanisms to prevent and deter fraud (slashing, watchers, pausability, etc.)
+Protokolü basit tutmanın yanı sıra, uygulama riski şu şekilde kısıtlanabilir:
 
-### Environmental Security
+- Güvenli geliştirme uygulamalarının takibi (sözleşme denetimleri, fuzzing vb.)
+- Dolandırıcılığı önlemek ve caydırmak için yerel mekanizmalar (kesme, izleyiciler, duraklatılabilirlik vb.)
 
-Bridges act as an oracle of information between chains, and must be able to preserve the integrity of state between chains with differing security thresholds (i.e. prevent 51% attacks from impacting multiple domains). While these types of attacks are difficult to detect onchain, they are trivial to detect offchain. 
+### Ortam Değişkenleri Güvenliği
 
-To constrain environment risk, protocols should use latency to their advantage to allow system relayers to detect and respond to these types of attacks.
+Köprüler, zincirler arasında bir bilgi kahini görevi görür ve farklı güvenlik eşiklerine sahip zincirler arasındaki durum bütünlüğünü koruyabilmelidir (yani, %51 saldırılarının birden çok etki alanını etkilemesini önleyebilmelidir). Bu tür saldırıların zincir üzerinde tespit edilmesi zor olsa da, zincir dışı tespit edilmesi önemsizdir.
 
-| Bridge Type             | Latency as a safety mechanism   |
-| ----------------------- | --------------------------------- |
-| `External`     | `Possible, but not required.`  |
-| `Native`       | `Not possible, uses state directly.`   |
-| `Local`        | `Possible, but at the expense of prolonged user lockups.`  |
-| `Optimistic`   | `Exists, fraud windows are built-in`    |
+Ortam riskini sınırlamak için protokoller, sistem aktarıcılarının bu tür saldırıları algılamasına ve bunlara yanıt vermesine izin vermek için gecikmeyi kendi avantajlarına kullanmalıdır.
 
+| Köprü Tipi | Bir güvenlik mekanizması olarak gecikme |
+| -------------------------- | --------------------------------- |
+| "Dış" | `Mümkün, ancak gerekli değil.` |
+| 'Yerli' | `Mümkün değil, durumu doğrudan kullanır.` |
+| 'Yerel' | `Mümkün, ancak uzun süreli kullanıcı kilitlenmeleri pahasına.` |
+| 'İyimser' | `Var, dolandırıcılık pencereleri yerleşik` |
