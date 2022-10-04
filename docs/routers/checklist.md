@@ -2,12 +2,12 @@
 sidebar_position: 2
 ---
 
-# Checklist for Running a Router
+# Yönlendirici Çalıştırmak için Kontrol Listesi
 
-- [Spin up the router](./spinning-up) and [configure](./Reference/configuration) for testnets.
-- [Provide Liquidity](./) and gas fees on testnets. [COMING SOON!]
-- Test the router on testnets.
-- Change configuration to mainnets (use a different mnemonic!), or spin up a new mainnet router.
-- Provide liquidity on mainnets.
-- [Monitor router logs](./spinning-up#view-logs) and [Grafana](./spinning-up#grafana-dashboard).
-- Make sure to fill with gas when it's low!.
+- Test ağları için [yönlendiriciyi döndürün](./spinning-up) ve [yapılandırın](./Reference/configuration).
+- [Likidite Sağlayın](./) ve test ağlarında gaz ücretleri. [ÇOK YAKINDA!]
+- Yönlendiriciyi test ağlarında test edin.
+- Yapılandırmayı ana ağlara değiştirin (farklı bir anımsatıcı kullanın!) veya yeni bir ana ağ yönlendiricisi açın.
+- Ana ağlarda likidite sağlayın.
+- [Yönlendirici günlüklerini izleyin](./spinning-up#view-logs) ve [Grafana](./spinning-up#grafana-dashboard).
+- Gas azaldığında doldurduğunuzdan emin olun!.
