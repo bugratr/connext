@@ -5,19 +5,19 @@ id: testnet
 
 # Testnet
 
-We maintain two testnet environments:
-- `production`: a "stable" testnet for integrators
-- `staging`: used primarily by the core team for testing; no expectations for stability
+İki testnet ortamı sağlıyoruz:
+- "üretim": entegratörler için "kararlı" bir test ağı
+- "evreleme": test için öncelikle çekirdek ekip tarafından kullanılır; istikrar beklentisi yok
 
-## Contract Deployments
+## Sözleşme Dağıtımları
 
-A full list of deployed contracts can be found in the [deployments.json](https://github.com/connext/nxtp/blob/main/packages/deployments/contracts/deployments.json) file. This contains deployments for all environments and is difficult to parse through manually. You should only need to reference it for automation or as a source of truth. For convenience, we extracted the important contract addresses and listed them here.
+Dağıtılan sözleşmelerin tam listesi [deployments.json](https://github.com/connext/nxtp/blob/main/packages/deployments/contracts/deployments.json) dosyasında bulunabilir. Bu, tüm ortamlar için dağıtımları içerir ve manuel olarak ayrıştırılması zordur. Yalnızca otomasyon için veya bir gerçek kaynağı olarak başvurmanız gerekir. Kolaylık sağlamak için önemli sözleşme adreslerini çıkardık ve burada listeledik.
 
-Note that the Test Token is a mintable ERC20. The open `mint` function has the signature `mint(address account, uint256 amount)` and can be freely called.
+Test Simgesinin basılabilir bir ERC20 olduğunu unutmayın. Açık 'mint' işlevi, 'mint(adres hesabı, uint256 miktarı)' imzasına sahiptir ve serbestçe çağrılabilir.
 
 <details>
 
-  <summary>Production Testnet Contracts</summary>
+  <summary>Üretim Testnet Kontratı</summary>
 
   ### Goerli 
   
@@ -26,8 +26,8 @@ Note that the Test Token is a mintable ERC20. The open `mint` function has the s
   <table>
     <tbody>
       <tr>
-        <th>Core Contract</th>
-        <th>Address</th>
+        <th>Çekirdek Kontrat</th>
+        <th>Addres</th>
       </tr>
       <tr>
         <td>
@@ -404,43 +404,42 @@ Note that the Test Token is a mintable ERC20. The open `mint` function has the s
 
 </details>
 
-## Offchain Agents
+## Zincir Dışı Ajanlar
 
-### Routers
+### Yönlendiriciler
 
-While there are multiple routers providing liquidity to the system, Connext runs our own as well.
+Sisteme likidite sağlayan birden fazla yönlendirici olsa da, Connext kendi yönlendiricimizi de çalıştırır.
 
-- Connext Router (staging): `0x71dD9fc6Fe5427F0c7cd7d42Bc89eFFe11C6d4B7`
-- Connext Router (production): `0xD2aD711861ab345977B7379c81165708C8717fF1`
-### Sequencer
+- Connext Yönlendirici (hazırlama): `0x71dD9fc6Fe5427F0c7cd7d42Bc89eFFe11C6d4B7'
+- Connext Yönlendirici (üretim): '0xD2aD711861ab345977B7379c81165708C8717fF1'
+### Sıralayıcı
 
-Example endpoints can be found [here](https://github.com/connext/nxtp/blob/c694958e51b9f81cc100260d0776788276303087/packages/agents/sequencer/example.http#L15). For instance, you can check for queued transactions:
+Örnek uç noktalar [burada](https://github.com/connext/nxtp/blob/c694958e51b9f81cc100260d07767882763087/packages/agents/sequencer/example.http#L15) bulunabilir. Örneğin, sıraya alınmış işlemleri kontrol edebilirsiniz:
 
 [https://sequencer.testnet.connext.ninja/queued](https://sequencer.testnet.connext.ninja/queued)
 
-### Relayers
+### Röleler
 
 [https://relay.gelato.digital](https://relay.gelato.digital)
 
-### Cartographer
+### Haritacı
 
-The Cartographer is a Connext-hosted service that stores transfer data to a persistent datastore. The data schema is bespoke for Connext cross-chain transfers and a REST API is available for retrieving details like transfer status, transfer history by user, and more.
+Cartographer, aktarım verilerini kalıcı bir veri deposuna depolayan Connext tarafından barındırılan bir hizmettir. Veri şeması Connext çapraz zincir aktarımları için özel olarak hazırlanmıştır ve aktarım durumu, kullanıcıya göre aktarım geçmişi ve daha fazlası gibi ayrıntıları almak için bir REST API mevcuttur.
 
-Example endpoints can be found [here](https://github.com/connext/nxtp/blob/c694958e51b9f81cc100260d0776788276303087/packages/agents/cartographer/api/example.http). For instance, you can query for all transfers: 
+Örnek uç noktalar [burada](https://github.com/connext/nxtp/blob/c694958e51b9f81cc100260d07767882763087/packages/agents/cartographer/api/example.http) bulunabilir. Örneğin, tüm transferler için sorgulayabilirsiniz:
 
 [https://postgrest.testnet.connext.ninja/transfers](https://postgrest.testnet.connext.ninja/transfers)
 
+## Kullanıcı arayüzleri
 
-## User Interfaces
+### Köprü Kullanıcı Arayüzü
 
-### Bridge UI
-
-A bridge UI where users can transfer assets across domains. Here you can also mint `TEST` tokens with the faucet.
+Kullanıcıların varlıkları alanlar arasında aktarabileceği bir köprü kullanıcı arayüzü. Burada ayrıca musluk ile 'TEST' jetonlarını basabilirsiniz.
 
 [https://amarok-testnet.coinhippo.io](https://amarok-testnet.coinhippo.io)
 
-### Connextscan
+### Bağlantı taraması
 
-This is the testnet scanner site where you can track the status of transfers by `transferId`. 
+Transferlerin durumunu `transferId` ile takip edebileceğiniz testnet tarayıcı sitesidir.
 
 [https://testnet.amarok.connextscan.io](https://testnet.amarok.connextscan.io)
