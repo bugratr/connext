@@ -1,8 +1,8 @@
 # Website
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+Bu web sitesi, modern bir statik web sitesi oluşturucu olan [Docusaurus 2](https://docusaurus.io/) kullanılarak oluşturulmuştur.
 
-## Installation
+## Kurulum
 
 ```console
 yarn install
@@ -10,26 +10,25 @@ yarn install
 
 
 
-## Local Development
+## Yerelde Geliştirme
 
 ```console
 yarn start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Bu komut, yerel bir geliştirme sunucusunu başlatır ve bir tarayıcı penceresi açar. Değişikliklerin çoğu, sunucuyu yeniden başlatmaya gerek kalmadan canlı olarak yansıtılır.
 
-## Build
+## İnşaa Et
 
 ```console
 yarn build
 ```
+Bu komut, 'build' dizinine statik içerik üretir ve herhangi bir statik içerik barındırma hizmeti kullanılarak sunulabilir.
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
+## Dağıtım
 
 ```console
 GIT_USER=<Your GitHub username> USE_SSH=true yarn deploy
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Barındırma için GitHub sayfalarını kullanıyorsanız, bu komut web sitesini oluşturmanın ve gh-pages dalına göndermenin uygun bir yoludur.
