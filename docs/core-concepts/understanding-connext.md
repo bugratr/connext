@@ -4,100 +4,101 @@ id: understanding-connext
 ---
 
 
-# What is Connext?
+# Connext nedir ?
 
-Connext powers fast, trust-minimized communication between blockchains.
+Connext, blok zincirler arasında hızlı, güveni en aza indirilmiş iletişime güç sağlar.
 
-Our goal is to create a world where:
+Amacımız, aşağıdakilerin olduğu bir dünya yaratmaktır:
 
-1. Users never need to know what chain or rollup they're on (unless they want to!)
-2. Developers can build applications that utilize resources from many chains/rollups simultaneously
+1. Kullanıcıların hiçbir zaman hangi zincir veya roll-upta olduklarını bilmeleri gerekmez (istemedikleri sürece!)
+2. Geliştiriciler, birçok zincirden/roll-uptan aynı anda kaynakları kullanan uygulamalar oluşturabilir
 
-## Modular Interoperabilty
+## Modüler Birlikte Çalışabilirlik
 
-There is no monolithic architecture that will give bridges *all* of the desirable properties, but we can get close to the ideal outcome by modularizing the protocol stack:
+Köprülere *tüm* istenen özellikleri verecek monolitik bir mimari yoktur, ancak protokol yığınını modülerleştirerek ideal sonuca yaklaşabiliriz:
+| Katman | Protokol/Paydaşlar |
+| -------------------------- | --------------------------------- |
+| 'Uygulama Katmanı' | `Çapraz Zincir Uygulamaları (xApps)` |
+| 'Likidite Katmanı' | "NXTP" |
+| 'Mesajlaşma Katmanı' | `Rollup AMB'leri, IBC, XCMP, vb.` |
+| `Taşıma Katmanı` | 'Connext Yönlendiriciler' |
 
-| Layer                   | Protocol/Stakeholders             |
-| ----------------------- | --------------------------------- |
-| `Application Layer`     | `Crosschain Applications (xApps)` |
-| `Liquidity Layer`       | `NXTP`                            |
-| `Messaging Layer`       | `Rollup AMBs, IBC, XCMP, etc.`                       |
-| `Transport Layer`       | `Connext Routers`                 |
+
+Bunlardan bazılarına daha yakından bakalım:
+
+1. xApp'ler, sizin gibi geliştiriciler tarafından oluşturulmuş uygulamalardır!
+2. NXTP, Connext tarafından bir mesajlaşma protokolünün üzerine inşa edilmiş bir *likidite* katmanı ve *geliştirici arabirimidir*.
+3. Mesajlaşma katmanı, verileri evm etki alanları arasında iletmek için iyimser bir mekanizma ve toplama-yerel AMB'lerin bir kombinasyonunu kullanır.
+4. Yönlendiriciler, çağrıları anında gerçekleştirerek/hedef zincirinde likidite sağlayarak mesajların işlenmesinde gecikmeleri “kısa devre” yapar. **Bu, kullanıcının karşılaştığı tüm durumlarda gecikmeyi ortadan kaldırır.**
 
 
-Let's take a closer look at some of these:
+Basit bir zihinsel model, Connext'i bir AMB mesajlaşma katmanının likidite katmanı olarak düşünmektir. Connext ve AMB'ler ile optimistik köprüler birlikte çalışabilirlik için "ideal" çözümün iki yarısını sağlar.
 
-1. xApps are applications built by developers like you!
-2. NXTP is a *liquidity* layer and *developer interface* built by Connext on top of a messaging protocol.
-3. The messaging layer uses a combination of an optimistic mechanism and rollup-native AMBs to pass data between evm domains.
-4. Routers “short-circuit” delays in processing messages by immediately executing calls/providing liquidity on the destination chain. **This removes latency in all user-facing cases.**
-
-A simple mental model is to think of Connext as the liquidity layer to an AMB messaging layer. Connext and AMBs, as well as optimistic bridges, together provide the two halves of the “ideal” solution for interoperability.
-
-## What does the Connext flow look like?
+## Connext akışı neye benziyor?
 
 ![Connext Diagram](/img/core-concepts/Connext_quick_overview.png "Title")
 
-In this diagram we can observe two domains, "origin" and "destination", and two paths, "fast" and "slow".
+Bu şemada "başlangıç" ve "varış yeri" olmak üzere iki etki alanı ve "hızlı" ve "yavaş" olmak üzere iki yol gözlemleyebiliriz.
 
-In this case, let’s assume the intention of the user is to bridge tokens from the origin to the destination domain, and have access to fast liquidity.
-Unlike bridging through an AMB alone, which often comes with several hours or days of latency for the user, Connext shortcuts this by allowing its routers to front you the capital, thereby taking on the liquidity risk for you while they wait for the tokens to move through the slow path. In cases where the messaging system delivers a bridge asset (i.e. minted asset), routers will also manage that complexity for you.
+Bu durumda, kullanıcının amacının, kaynaktan hedef etki alanına jetonları köprülemek ve hızlı likiditeye erişim sağlamak olduğunu varsayalım.
+Kullanıcı için genellikle birkaç saat veya gün gecikme süresi ile gelen tek başına bir AMB üzerinden köprülemenin aksine, Connext, yönlendiricilerinin sermayeyi önünüze almasına izin vererek bunu kısaltır ve böylece tokenlerin hareket etmesini beklerken sizin için likidite riskini üstlenir. yavaş yoldan. Mesajlaşma sisteminin bir köprü varlığı (yani basılmış varlık) sağladığı durumlarda, yönlendiriciler de bu karmaşıklığı sizin için yönetecektir.
 
-It's important to note that if the user is bridging data, or if the call needs to be authenticated by the caller, the bridging operation will always go through the slow path. This maintains data integrity by allowing the AMB verification process to complete.
+Kullanıcı veri arasında köprü oluşturuyorsa veya aramanın arayan tarafından kimliğinin doğrulanması gerekiyorsa, köprüleme işleminin her zaman yavaş yoldan geçeceğini unutmamak önemlidir. Bu, AMB doğrulama işleminin tamamlanmasına izin vererek veri bütünlüğünü korur.
 
 <details>
 
-  <summary>Detailed Flow Summary</summary>
-
+  <summary>Ayrıntılı Akış Özeti</summary>
+  
   <img src="/img/developers/connext_flow.png" alt="connext full flow summary" width="1000"/>
 
-  A transaction flowing through Connext will have the following lifecycle:
+ Connext üzerinden akan bir işlem aşağıdaki yaşam döngüsüne sahip olacaktır:
 
-  - User will initiate the transaction by calling an `xcall` function on the Connext contract, passing in funds, gas details, arbitrary data, and a target address object (includes chain info). 
-    - *Note: `xcall` is meant to mimic solidity's lower level call as best as possible.*
+   - Kullanıcı, Connext sözleşmesinde bir "xcall" işlevini çağırarak, fonları, gaz ayrıntılarını, keyfi verileri ve bir hedef adres nesnesini (zincir bilgisini içerir) ileterek işlemi başlatır.
+     - *Not: "xcall", solidity'nin alt düzey çağrısını olabildiğince iyi taklit etmek içindir.*
 
-  - The Connext contracts will:
-    - If needed, swap the passed in token to the AMB version of the same asset.
-    - Call the AMB contracts with a hash of the transaction details to initiate the 60 minute message latency across chains.
-    - Emit an event with the transaction details.
+- Connext sözleşmeleri:
+     - Gerekirse, aktarılan jetonu aynı varlığın AMB sürümüyle değiştirin.
+     - Zincirler arasında 60 dakikalık mesaj gecikmesini başlatmak için işlem ayrıntılarının bir özetiyle AMB sözleşmelerini arayın.
+     - İşlem ayrıntılarını içeren bir etkinlik yayınlayın.
 
-  - Routers observing the origin chain with funds on the destination chain will:
-    - Simulate the transaction (if this fails, the assumption is that this is a more "expressive" crosschain message that requires authentication and so must go through the AMB: the slow path).
-    - Prepare a signed transaction object using funds on the receiving chain.
-    - Post this object (a "bid") to the sequencer.
-    - *Note: if the router does not have enough funds for the transfer, they may also provide only part of the transfer's value.*
-  - The sequencer will be observing all of the underlying chains. Every X blocks, the sequencer will collect bids for transactions. The sequencer will be responsible for selecting the correct router (or routers!) for a given transaction (can be random). The sequencer will post batches of these bids to a relayer network to submit them to chain.
-  - When a given bid is submitted to chain, the contracts will do the following:
-    - Check that there are enough funds available for the transaction.
-    - Swap the router's AMB-flavored funds for the canonical asset of the chain if needed.
-    - Send the swapped funds to the correct target (if it is a contract, this will also execute `calldata` against the target).
-    - Hash the router's params and store a mapping of this hash to the router's address in the contract.
-      - *At this point, the user's transaction has already been completed!*
-  - Later, when the slow path message arrives, a heavily batched transaction can be submitted to take all pending hashes received over the AMB and look up whether they have corresponding router addresses in the hash -> router address mapping. If they do, then AMB assets are minted and given to the router.
-    - *Note: if the router gives the incorrect amount of funds to a user or if they execute the wrong calldata, then the router's param hash will not match the hash coming over the AMB and the router will not get reimbursed. This is the core security mechanism that ensures that routers behave correctly.*
-    - *Note: Routers will take a 60 minute lockup on their funds when relaying transactions. While this theoretically reduces capital efficiency compared to the existing system, in practice the lack of need to rebalance will mean that routers have more capital available more often regardless.*
+     - Hedef zincirindeki fonlarla başlangıç zincirini gözlemleyen yönlendiriciler:
+     - İşlemi simüle edin (bu başarısız olursa, bunun daha "anlamlı" bir çapraz zincir mesajı olduğu ve bunun kimlik doğrulaması gerektirdiği ve dolayısıyla AMB'den geçmesi gerektiği varsayılır: yavaş yol).
+     - Alıcı zincirindeki fonları kullanarak imzalı bir işlem nesnesi hazırlayın.
+     - Bu nesneyi ("teklif") sıralayıcıya gönderin.
+     - *Not: Yönlendiricide aktarım için yeterli para yoksa, aktarım değerinin yalnızca bir kısmını da sağlayabilirler.*
+  
+- Sıralayıcı, temeldeki tüm zincirleri gözlemleyecektir. Her X blokta, sıralayıcı işlemler için teklif toplayacaktır. Sıralayıcı, belirli bir işlem (rastgele olabilir) için doğru yönlendiriciyi (veya yönlendiricileri!) seçmekten sorumlu olacaktır. Sıralayıcı, zincire göndermek için bu tekliflerin gruplarını bir geçiş ağına gönderir.
+   - Zincire belirli bir teklif verildiğinde, sözleşmeler aşağıdakileri yapacaktır:
+    - İşlem için yeterli para olup olmadığını kontrol edin.
+     - Gerekirse, zincirin kurallı varlığı için yönlendiricinin AMB aromalı fonlarını değiştirin.
+     - Takas edilen fonları doğru hedefe gönderin (eğer bir sözleşme ise, bu aynı zamanda hedefe karşı 'calldata'yı da yürütecektir).
+     - Yönlendiricinin parametrelerini karma hale getirin ve bu karmanın bir eşlemesini yönlendiricinin sözleşmedeki adresine kaydedin.
+     - *Bu noktada, kullanıcının işlemi zaten tamamlandı!*
+   - Daha sonra, yavaş yol mesajı geldiğinde, AMB üzerinden alınan tüm bekleyen karmaları almak ve karma -> yönlendirici adres eşlemesinde ilgili yönlendirici adreslerine sahip olup olmadıklarına bakmak için yoğun bir şekilde toplu işlem gönderilebilir. Bunu yaparlarsa, AMB varlıkları basılır ve yönlendiriciye verilir.
+     - *Not: Yönlendirici bir kullanıcıya yanlış miktarda para verirse veya yanlış çağrı verilerini yürütürse, yönlendiricinin param karma değeri AMB üzerinden gelen karma ile eşleşmeyecek ve yönlendirici geri ödenmeyecektir. Bu, yönlendiricilerin doğru şekilde davranmasını sağlayan temel güvenlik mekanizmasıdır.*
+     - *Not: Yönlendiriciler, işlemleri aktarırken fonlarına 60 dakikalık bir kilitlenme uygular. Bu teorik olarak mevcut sisteme kıyasla sermaye verimliliğini azaltırken, pratikte yeniden dengeleme ihtiyacının olmaması, yönlendiricilerin ne olursa olsun daha sık kullanılabilir sermayeye sahip olduğu anlamına gelir.*
 
 </details>
 
-## What can you build with Connext?
+## Connext ile neler inşa edebilirsiniz?
 
-Some example use cases:
+Bazı örnek kullanım durumları:
 
-- Execute the outcome of **DAO votes** across chains
-- Lock-and-mint or burn-and-mint **token bridging**
-- **Aggregate DEX liquidity** across chains in a single seamless transaction
-- Crosschain **vault zaps** and **vault strategy management**
-- **Lend funds** on one chain and borrow on another
-- Bringing **UniV3 TWAPs** to every chain without introducing oracles
-- **NFT bridging** and chain-agnostic NFT marketplaces
-- **Store data on Arweave/Filecoin** directly from within an Ethereum smart contract
+- Zincirler arasında **DAO oylarının** sonucunu uygulayın
+- Kilitle-ve-nane veya yak-ve-nane **belirteç köprüleme**
+- Tek bir sorunsuz işlemde zincirler arasında **Toplam DEX likiditesi**
+- Çapraz zincir **kasa zapları** ve **kasa stratejisi yönetimi**
+- Bir zincirde **para ödünç verin** ve diğerinde ödünç alın
+- Oracle'ları tanıtmadan **UniV3 TWAP'leri** her zincire getirmek
+- **NFT köprüleme** ve zincirden bağımsız NFT pazar yerleri
+- **Verileri Arweave/Filecoin'de** doğrudan bir Ethereum akıllı sözleşmesi içinden depolayın
 
-## How do I interact with Connext?
+## Connext ile nasıl etkileşim kurabilirim?
 
-Developers can send an `xcall` and the protocol will then split actions between a Liquidity Layer (Connext) and a Messaging Layer.
+Geliştiriciler bir "xcall" gönderebilir ve protokol daha sonra eylemleri bir Likidite Katmanı (Connext) ve bir Mesajlaşma Katmanı arasında böler.
 
-You can see this in action in the Developer [Quickstart](../developers/quickstart/quickstart.mdx).
+Daha detaylı bilgilere şuradan ulaşabilirsiniz [Geliştirici Yolharitası](../developers/quickstart/quickstart.mdx).
 
-## How do I interact with the Connext community?
+## Connext topluluğuyla nasıl etkileşim kurabilirim?
 
-Find our discord at https://discord.gg/pef9AyEhNz and join the `dev-hub` channel
+Discord kanalımıza https://discord.gg/pef9AyEhNz adresinden ulaşın ve 'dev-hub' kanalına katılın
