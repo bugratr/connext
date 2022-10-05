@@ -3,23 +3,22 @@ sidebar_position: 1
 id: authentication
 ---
 
-# Authentication
+# Yetkilendirme
+## Giriş
 
-## Introduction
+Kimlik doğrulama, xApps oluştururken anlaşılması gereken kritik bir kavramdır. Akıllı sözleşmeler bağlamında, kimliği doğrulanmış bir çağrı, protokol geliştiricisi tarafından belirlenen izin kısıtlamalarını geçen bir çağrıdır. Çoğu durumda bu, belirli bir adres alt kümesinin belirli akıllı sözleşme işlevlerini çağırmasına izin veren bir değiştirici olarak kendini gösterir - başka bir deyişle, erişim kontrolünden bahsediyoruz.
 
-Authentication is a critical concept to understand when building xApps. In the context of smart contracts, an authenticated call is one that passes permissioning constraints set by the protocol developer. In most cases this manifests as a modifier that allows a certain subset of addresses to call specific smart contract functions - in other words, we are talking about access control.
-
-A simple example of authentication is an `onlyOwner` modifier that allows only the owner of a smart contract to perform certain tasks. You can read more about this one at [OpenZeppelin's Ownable contracts](https://docs.openzeppelin.com/contracts/2.x/api/ownership).
+Basit bir kimlik doğrulama örneği, yalnızca akıllı bir sözleşmenin sahibinin belirli görevleri gerçekleştirmesine izin veren bir "onlyOwner" değiştiricisidir. Bununla ilgili daha fazla bilgiyi [OpenZeppelin'in Sahip Olunabilir sözleşmelerinde](https://docs.openzeppelin.com/contracts/2.x/api/ownership) okuyabilirsiniz.
 
 ---
 
-## Unauthenticated
+## Yetkiyi Kaldırma
 
-Cross-domain calls can target destination-side smart contract functions by sending encoded `calldata` in the `xcall`. With unauthenticated functions, they are open and callable by anyone.
+Etki alanları arası çağrılar, "xcall" içinde kodlanmış "çağrı verileri" göndererek hedef taraf akıllı sözleşme işlevlerini hedefleyebilir. Kimliği doğrulanmamış işlevlerle açık ve herkes tarafından çağrılabilirler.
 
-### Target Contract
+### Hedef Kontrat
 
-Suppose we have a target contract on the destination domain with an unauthenticated `updateValue` function.  
+Hedef etki alanında kimliği doğrulanmamış bir "updateValue" işlevine sahip bir hedef sözleşmemiz olduğunu varsayalım.  
 
 ```solidity
 contract Target {
@@ -31,9 +30,9 @@ contract Target {
 }
 ```
 
-### Source Contract
+### Kaynak Kontrat
 
-The source contract initiates the cross-chain interaction with Connext via `xcall`.
+Kaynak sözleşmesi, Connext ile zincirler arası etkileşimi "xcall" aracılığıyla başlatır.
 
 ```solidity
 import {IConnextHandler} from "nxtp/core/connext/interfaces/IConnextHandler.sol";
@@ -85,15 +84,14 @@ contract Source {
 }
 ```
 
-Once these contracts are deployed, anyone can call `xChainUpdate` on the source contract from the origin domain to change the value stored in the target contract of the destination domain!
+Bu sözleşmeler dağıtıldıktan sonra, herhangi bir kişi hedef etki alanının hedef sözleşmesinde depolanan değeri değiştirmek için kaynak etki alanından kaynak sözleşmede 'xChainUpdate'i çağırabilir!
 
 ---
 
-## Authenticated
+## Yetkilendirme
+Kimliği doğrulanmış işlevlerle xApp geliştiricisi, izin kontrollerini dikkatli bir şekilde uygulamalıdır. Hedef işlevi **_yalnızca kaynak sözleşmeyle_** çağrılabilir hale getirerek bunun nasıl çalıştığını görelim.
 
-With authenticated functions, xApp developer must carefully implement permissioning checks. Let's see how this works by making the target function **_only callable by the source contract_**.
-
-### Target Contract
+### Hedef Kontrat
 
 ```solidity
 contract Target {
@@ -136,11 +134,11 @@ contract Target {
 }
 ```
 
-Notice the custom modifier `onlyExecutor` on the target function. It checks that the `originSender` and the `origin` (domain) sent from the originating call matches the origin values set in the constructor. It also must ensure that `msg.sender` is the Connext Executor contract - otherwise, any calling contract could just spoof the origin information that we're expecting. The `xcall`'s origin information can be obtained by passing the `msg.data` into Connext's `LibCrossDomainProperty` library methods.
+Hedef işlevde 'onlyExecutor' özel değiştiricisine dikkat edin. Kaynak çağrıdan gönderilen 'OriginSender' ve 'origin' (etki alanı), yapıcıda ayarlanan Origin değerleriyle eşleşip eşleşmediğini kontrol eder. Ayrıca, "msg.sender"ın Connext Executor sözleşmesi olduğundan emin olmalıdır - aksi takdirde, herhangi bir arama sözleşmesi, beklediğimiz kaynak bilgisini yanıltabilir. "xcall"ın başlangıç bilgisi, "msg.data"nın Connext'in "LibCrossDomainProperty" kitaplık yöntemlerine geçirilmesiyle elde edilebilir.
 
-### Source Contract
+### Kaynak Kontrat
 
-The source contract is the exact same as the unauthenticated example above except that `forceSlow: true`. See the notes about this parameter [here](../xcall-params.md).
+Kaynak sözleşme, "forceSlow: true" dışında, yukarıdaki kimliği doğrulanmamış örnekle tamamen aynıdır. Bu parametreyle ilgili notlara bakın [buradan](../xcall-params.md).
 
 ```solidity
 import {IConnextHandler} from "nxtp/core/connext/interfaces/IConnextHandler.sol";
@@ -192,4 +190,4 @@ contract Source {
 }
 ```
 
-Now the target contract can only be updated by a cross-chain call from the source contract's `xChainUpdate` function!
+Artık hedef sözleşme yalnızca kaynak sözleşmenin `xChainUpdate` işlevinden bir zincirler arası çağrı ile güncellenebilir!
