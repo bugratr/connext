@@ -3,19 +3,19 @@ sidebar_position: 1
 id: callbacks
 ---
 
-# Callbacks
+# Geri Çağrılar
 
-## Introduction
+## Giriş
 
-One awesome feature we've introduced is the ability to use callbacks to respond to results of calls from the destination domain on the origin domain. You can read the [detailed spec here](https://github.com/connext/nxtp/discussions/883). This example will build on top of the Authenticated example.
+Tanıttığımız harika bir özellik, kaynak etki alanındaki hedef etki alanından gelen aramaların sonuçlarına yanıt vermek için geri aramaları kullanma yeteneğidir. [Ayrıntılı özelliği buradan](https://github.com/connext/nxtp/discussions/883) okuyabilirsiniz. Bu örnek, Yetkilendirme örneğinin üzerine inşa edilecektir.
 
 ---
 
-### Source Contract
+### Kaynak Kontrat
 
-To enable callback handling, some contract on the origin domain must implement the `ICallback` interface. This could be a separate contract or the Source contract itself. 
+Geri arama işlemeyi etkinleştirmek için, kaynak etki alanındaki bazı sözleşmelerin 'ICallback' arabirimini uygulaması gerekir. Bu, ayrı bir sözleşme veya Kaynak sözleşmesinin kendisi olabilir.
 
-We'll have our Source contract handle the callback. To do so, Source should import the `ICallback` interface and change the `callback` param to the address of the contract implementing this interface. It will also need a reference to the Connext PromiseRouter contract.
+Kaynak sözleşmemizin geri aramayı halletmesini sağlayacağız. Bunu yapmak için Source, 'ICallback' arayüzünü içe aktarmalı ve 'callback' parametresini bu arayüzü uygulayan sözleşmenin adresiyle değiştirmelidir. Ayrıca Connext PromiseRouter sözleşmesine bir referansa ihtiyacı olacaktır.
 
 ```solidity title="Source.sol"
 import {IConnextHandler} from "nxtp/core/connext/interfaces/IConnextHandler.sol";
@@ -99,11 +99,11 @@ contract Source {
   }
 ```
 
-The return data from the destination domain is sent with the callback so we can do whatever we want with it. In this case, we simply emit an event with the `newValue` we sent so that the callback can be used on the origin domain to verify a successful update on the destination domain.
+Hedef etki alanından dönüş verileri geri arama ile birlikte gönderilir, böylece onunla istediğimizi yapabiliriz. Bu durumda, hedef etki alanında başarılı bir güncellemeyi doğrulamak için geri aramanın kaynak etki alanında kullanılabilmesi için gönderdiğimiz 'newValue' ile bir olayı ağa yayarız.
 
-### Target Contract
+### Hedef Kontrat
 
-On the Target side, the function just needs to return some data.
+Hedef tarafında, işlevin yalnızca bazı verileri döndürmesi gerekir.
 
 ```solidity
 contract Target {
@@ -152,6 +152,6 @@ contract Target {
 }
 ```
 
-That's it! Connext will now send the callback execution back to the origin domain to be processed by relayers.
+Bu kadar! Connext şimdi geri arama yürütmesini, aktarıcılar tarafından işlenmek üzere kaynak etki alanına geri gönderecek.
 
-**Note**: Origin-side relayers have not been set up to process callbacks yet. This will be added shortly!
+**Not**: Başlangıç tarafı aktarıcılar henüz geri aramaları işlemek için ayarlanmamıştır. Bu kısa süre sonra eklenecektir!
