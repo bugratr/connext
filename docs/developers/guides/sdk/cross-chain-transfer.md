@@ -3,36 +3,34 @@ sidebar_position: 1
 id: sdk-example
 ---
 
-# Cross-Chain Transfer
+# Zincirler Arası Transfer
 
-The main entrypoint for interacting with the Connext protocol is `xcall`. This method kicks off a crosschain interaction and all the user has to do is wait for it to complete on the destination chain. There are *no required user interactions past this transaction*!
+Connext protokolüyle etkileşim için ana giriş noktası "xcall"dır. Bu yöntem bir çapraz zincir etkileşimini başlatır ve kullanıcının tek yapması gereken hedef zincirde tamamlanmasını beklemektir. *Bu işlemden sonra gerekli kullanıcı etkileşimi yoktur*!
 
-The Connext SDK allows developers to interact with the Connext protocol in standard Node.js or web environments.
+Connext SDK, geliştiricilerin standart Node.js veya web ortamlarında Connext protokolüyle etkileşim kurmasına olanak tanır.
 --- 
 
-## Introduction
+## Giriş
 
-In this example, we'll demonstrate how to execute an `xcall` to transfer funds from a wallet on Goerli to a destination address on Optimism-Goerli.
+Bu örnekte, Goerli'deki bir cüzdandan Optimism-Goerli'deki bir hedef adrese para aktarmak için bir "xcall"ın nasıl yürütüleceğini göstereceğiz.
 
 ### 1. Setup
 
-Install [Node.js](https://nodejs.dev/en/learn/how-to-install-nodejs/) and use **Node.js v16**. Follow the instructions to install `nvm`, a node version manager, which will make switching versions easier.
+[Node.js](https://nodejs.dev/en/learn/how-to-install-nodejs/) yükleyin ve **Node.js v16** kullanın. Sürüm değiştirmeyi kolaylaştıracak bir düğüm sürüm yöneticisi olan `nvm`yi kurmak için talimatları izleyin.
 
-Create a project folder and initialize the package. Fill out the project information as you please.
+Bir proje klasörü oluşturun ve paketi başlatın. Proje bilgilerini istediğiniz gibi doldurun.
 
 ```bash npm2yarn
 mkdir node-examples && cd node-examples
 npm init
 ```
 
-We'll be using TypeScript so install the following and generate the `tsconfig.json` file.
-
+TypeScript kullanacağız, bu yüzden aşağıdakini kurun ve `tsconfig.json` dosyasını oluşturun.
 ```bash npm2yarn
 npm install --save-dev @types/node @types/chai @types/mocha typescript 
 npx tsc --init # yarn tsc --init
 ```
-
-We want to use top-level await so we'll set the compiler options accordingly.
+Üst düzey beklemeyi kullanmak istiyoruz, bu nedenle derleyici seçeneklerini buna göre ayarlayacağız.
 
 ```json title="tsconfig.json"
 {
@@ -47,7 +45,7 @@ We want to use top-level await so we'll set the compiler options accordingly.
 }
 ```
 
-Add `type` and `scripts` as root-level entries to `package.json` - they may already exist, so just replace them with the following.
+"type" ve "scriptleri" kök düzeyinde girdiler olarak "package.json"a ekleyin - bunlar zaten mevcut olabilir, bu nedenle bunları aşağıdakiyle değiştirin.
 
 ```json title="package.json"
   "type": "module",
@@ -56,25 +54,24 @@ Add `type` and `scripts` as root-level entries to `package.json` - they may alre
     "xtransfer": "node dist/xtransfer.js"
   }
 ```
-
-Create `xtransfer.ts` in the `src` directory, where we will write all the code in this example.
+Bu örnekte tüm kodları yazacağımız `src` dizininde `xtransfer.ts` oluşturun.
 
 ```bash
 mkdir src && touch src/xtransfer.ts
 ```
 
-### 2. Install dependencies
+### 2. Bağımlılıkların yüklenmesi
 
-Install the latest beta version of Connext SDK and ethers.
+Connext SDK ve ethers'in en son beta sürümünü yükleyin.
 
 ```bash npm2yarn
 npm install @connext/nxtp-sdk@beta
 npm install ethers
 ```
 
-### 3. The code
+### 3. Kod
 
-This is the full code for the example. Read through the comments and replace any placeholders between `<...>`.
+Bu, örneğin tam kodudur. Yorumları okuyun ve "<...>" arasındaki tüm yer tutucuları değiştirin.
 
 ```ts title="src/xtransfer.ts"
 import { create, NxtpSdkConfig } from "@connext/nxtp-sdk";
@@ -162,19 +159,19 @@ console.log(xcallTxReceipt);
 const xcallResult = await xcallTxReceipt.wait();
 ```
 
-### 4. Run it
+### 4. Çalıştırın
 
-Now we can run it to fire off the cross-chain transfer!
+Şimdi çapraz zincir aktarımını başlatmak için çalıştırabiliriz!
 
 ```bash npm2yarn
 npm run build
 npm run xtransfer
 ```
 
-### 5. Track the `xcall`
+### 5. 'xcall' çağrısını takip edin
 
-We can use the transaction `hash` from the transaction receipt we logged above to track the status of this `xcall` by following these instruction.
+Bu talimatları izleyerek bu xcall'in durumunu takip etmek için yukarıda kaydettiğimiz işlem makbuzundan "hash" işlemini kullanabiliriz.
 
 [Tracking an xcall](../xcall-status)
 
-After the transfer shows up on the Optimism-Goerli side, the transferred tokens should show up in the destination wallet.
+Optimism-Goerli tarafında transfer göründükten sonra, transfer edilen tokenlar hedef cüzdanda görünmelidir.
