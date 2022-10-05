@@ -2,23 +2,23 @@
 sidebar_position: 6
 ---
 
-# Tracking an xcall
+# Bir xCall Çağrısını Takip Etme
 
-Every `xcall` is associated with a unique `transferId` that can be used to track its lifecycle through a cross-chain transaction.
+Her "xcall", zincirler arası bir işlem aracılığıyla yaşam döngüsünü izlemek için kullanılabilen benzersiz bir "transferId" ile ilişkilendirilir.
 
-## Querying Subgraphs
+## Alt grafları sorgulama
 
-You can query the hosted subgraphs on each chain to check the transaction status.
+İşlem durumunu kontrol etmek için her zincirde barındırılan alt grafları sorgulayabilirsiniz.
 
-| Chain | Subgraph |
+| Zincir | Alt graf |
 | --- | --- |
 | Goerli | [v0-Goerli](https://thegraph.com/hosted-service/subgraph/connext/nxtp-amarok-runtime-v0-goerli) |
 | Optimism-Goerli | [v0-Opt-Goerli](https://thegraph.com/hosted-service/subgraph/connext/amarok-runtime-v0-opt-goerli) |
 
-1.  Make note of the transaction hash that interacted with the Connext contract
+1.  Connext sözleşmesiyle etkileşime giren işlem karmasını not edin
 
-2.  Navigate to the hosted subgraph for the origin domain
-    - Query by your transaction hash
+2. Kaynak etki alanı için barındırılan alt grafiğe gidin
+     - İşlem hash'inize göre sorgulama
         
         ```graphql
         {
@@ -48,8 +48,8 @@ You can query the hosted subgraphs on each chain to check the transaction status
         }
         ```
         
-3.  Navigate to the hosted subgraph for the destination domain
-    - Query by the `transferId` obtained from the origin domain subgraph
+3.  Hedef etki alanı için barındırılan alt grafiğe gidin
+     - Origin etki alanı alt grafiğinden elde edilen 'transferId' ile sorgulama yapın
         
         ```graphql
         {
@@ -103,4 +103,4 @@ You can query the hosted subgraphs on each chain to check the transaction status
 
 ## Connextscan
 
-Another option is using [Connextscan](https://testnet.amarok.connextscan.io/) which can monitor the status of any `transferId`.
+Başka bir seçenek de, herhangi bir "transferId" durumunu izleyebilen [Connextscan](https://testnet.amarok.connextscan.io/) kullanmaktır.
