@@ -3,10 +3,10 @@ sidebar_position: 1
 id: guides-introduction
 ---
 
-# Introduction
+# Giriş
 
-These are guides for different features, use-cases, and perhipheral utilities that can be helpful when building on Connext.
+Bunlar, Connext'i kurarken yardımcı olabilecek farklı özellikler, kullanım durumları ve çevresel yardımcı programlar için kılavuzlardır.
 
-Working code examples can be found in our xApp Starter Kit.
+Çalışma kodu örnekleri, xApp Başlangıç Setimizde bulunabilir.
 
-[xApp Starter Kit](https://github.com/connext/xapp-starter/)
+[xApp Başlangıç Rehberi](https://github.com/connext/xapp-starter/)
