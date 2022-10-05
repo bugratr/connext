@@ -172,6 +172,6 @@ npm run xtransfer
 
 Bu talimatları izleyerek bu xcall'in durumunu takip etmek için yukarıda kaydettiğimiz işlem makbuzundan "hash" işlemini kullanabiliriz.
 
-[Tracking an xcall](../xcall-status)
+[xcall çağrısını takip etme](../xcall-status)
 
 Optimism-Goerli tarafında transfer göründükten sonra, transfer edilen tokenlar hedef cüzdanda görünmelidir.
