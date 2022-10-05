@@ -2,26 +2,26 @@
 sidebar_position: 1
 ---
 
-# Developer Intro
+# Geliştirici Girişi
 
-An `xcall` can be initiated from a smart contract to send funds and/or conduct arbitrary execution _across domains_. This allows Connext to be used as a base cross-chain layer that can be integrated into dApps, turning them into **xApps**.
+Bir "xcall", para göndermek ve/veya _alanlar arasında_ keyfi yürütme yürütmek için akıllı bir sözleşmeden başlatılabilir. Bu, Connext'in dApp'lere entegre edilebilen ve onları **xApps**'e dönüştüren bir temel çapraz zincir katmanı olarak kullanılmasına olanak tanır.
 
-You can use Connext to build xApps like:
+Aşağıdaki gibi xApp'ler oluşturmak için Connext'i kullanabilirsiniz:
 
-- Bridges to transfer ERC-20 tokens between blockchains
-- Crosschain DeFi protocols
-- Crosschain NFTs
-and more!
+- ERC-20 jetonlarını blok zincirler arasında aktarmak için köprüler
+- Çapraz zincir DeFi protokolleri
+- Çapraz zincir NFT'leri
+ve dahası!
 
-Start building cross-chain applications in no time with our Quickstart or see our Guides for more in-depth examples.
+Hızlı Başlangıç özelliğimizle zincirler arası uygulamalar oluşturmaya hemen başlayın veya daha ayrıntılı örnekler için Kılavuzlarımıza bakın.
 
-[Quickstart](./quickstart)
+[Hızlı Başlangıç](./quickstart)
 
-[Guides](./guides/guides-introduction)
+[Kaynaklar](./guides/guides-introduction)
 
 ---
-## Help
+## Yardım
 
-Have questions or need support? Our core team and vibrant community members are highly active in our Discord server!
+Sorularınız mı var veya desteğe mi ihtiyacınız var? Çekirdek ekibimiz ve canlı topluluk üyelerimiz Discord sunucumuzda oldukça aktif!
 
-[Chat with us!](https://chat.connext.network)
+[Bizimle sohbet edin!](https://chat.connext.network)
