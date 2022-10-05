@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
-title: Contracts
+title: Kontratlar
 id: contracts-overview
 ---
 
-Coming soon!
+Yakında!
